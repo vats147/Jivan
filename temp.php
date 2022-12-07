@@ -32,6 +32,12 @@ TemplateMo 558 Baba Sai Resturant
 https://templatemo.com/tm-558-klassy-cafe
 
 -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link type="text/css" href="css/bootstrap.min.css" />
+        <link type="text/css" href="css/bootstrap-timepicker.min.css" />
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-timepicker.min.js"></script>
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
@@ -53,19 +59,27 @@ https://templatemo.com/tm-558-klassy-cafe
     <!-- <link rel="stylesheet" href="x.css"> -->
 
     <title>Document</title>
+    
 </head>
 
 <body>
     <?php
     include 'navbar.php';
     ?>
+    <script type="text/javascript">
+            $('#timepicker1').timepicker();
+        </script>
 
-    <section class="h-100 h-custom" style="background-color: #ff5722e0;">
+    <section class="h-100 h-custom" >
         <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12">
+            <div class="row d-flex justify-content-center align-items-center h-100" style="
+    box-shadow: 0px -1px 9px 3px grey;
+">
+                <!-- <div class="col-12"> -->
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                        <div class="card-body p-0">
+                        <div class="card-body p-0" style="
+    background-color: #ba7e6be0;
+">
                             <div class="row g-0">
                                 <div class="col-lg-8">
                                     <div class="p-5">
@@ -181,7 +195,7 @@ https://templatemo.com/tm-558-klassy-cafe
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 bg-grey">
+                                <div class="col-lg-4 bg-grey" style="background-color:#ff3c19a1;">
                                     <div class="p-5">
                                         <h3 class="fw-bold mb-5 mt-2 pt-1">Enjoy your shopping</h3>
                                         <hr class="my-4">
@@ -201,35 +215,49 @@ https://templatemo.com/tm-558-klassy-cafe
                                                 <option value="4">Four</option>
                                             </select>
                                         </div> -->
+                                        <div class="form-group">
+                                        <h5 class="text-uppercase mb-3">Enter PICKUP TIMING</h5>
 
-                                        <h5 class="text-uppercase mb-3">Give code</h5>
+                                        <input id="timepicker1" type="text" class="form-control input-small">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+								</div>
+                                        <h5 class="text-uppercase mb-3">Enter Promo Code</h5>
 
                                         <div class="mb-5">
                                             <div class="form-outline">
                                                 <input type="text" id="form3Examplea2"
                                                     class="form-control form-control-lg" />
-                                                <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                                <!-- <label class="form-label" for="form3Examplea2">Enter your code</label> -->
                                             </div>
                                         </div>
-
-                                        <hr class="my-4">
 
                                         <div class="d-flex justify-content-between mb-5">
                                             <h5 class="text-uppercase">Total price</h5>
                                             <h5>₹ 137.00</h5>
                                         </div>
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <h5 class="text-uppercase">Discount</h5>
+                                            <h5>₹ 50.00</h5>
+                                        </div>
+
+                                        <hr class="my-4">
+
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <h5 class="text-uppercase">Bill price</h5>
+                                            <h5>₹ 7.00</h5>
+                                        </div>
 
                                         <button type="button" class="btn btn-dark btn-block btn-lg"
                                             data-mdb-ripple-color="dark">Check Out</button>
-                                    <!-- </div> -->
-                                         
+                                        <!-- </div> -->
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
 
         <!-- jQuery -->

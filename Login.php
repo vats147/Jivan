@@ -1,75 +1,277 @@
+<?php
+	$url=$hope=$errPwd="";
+	session_start();
+
+		if(isset($_SESSION['user']))
+		{
+				header("Location:index.php");
+		}
+		else
+		{
+			$hope="dfhdfhf<br>";
+			$errPwd="Enter Your Details";
+			include 'dbfile.php';
+			if(isset($_POST['signin']))
+			{
+
+				if(!empty($_POST['mail']) && !empty($_POST['pwd'])){
+				$mail = $_POST['mail'];
+				// Validate email
+				if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+					$mail=$_POST['mail'];
+					$pwd=$_POST['pwd'];
+					//$hash = md5($pwd);
+					$sqlselect = "SELECT `role`, `name`, `emailid`, `password` FROM `tbluser`";
+					//$sqlselect for data retrival from database
+					$result= mysqli_query($conn, $sqlselect);
+					if (mysqli_num_rows($result) > 0)
+					{
+						while($row = mysqli_fetch_assoc($result))
+						{
+							if($mail==$row['emailid'])
+							{
+								if(password_verify($pwd, $row['password']))
+								{
+									$_SESSION['user']=$row['name'];
+									$_SESSION['role']=$row['role'];
+									 //admin
+									if($row['role']==0)
+									{ 
+										header("Location:index.php");
+									}
+									//customer
+									else if($row['role']==1){
+										header("Location:dashboard.php");
+									}
+									else if($row['role']==2)
+									{ //branch manager
+										header("Location:./branchmanager/dashboard.php");
+									}
+									else if($row['role']==3)
+									{ //orderman
+										header("Location:ordermantable.php");
+									}
+									else if($row['role']==4)
+									{ //cashier
+										header("Location:cashier.php");
+									}
+									else
+									$errmail="Invalid Details";
+								} 
+	
+							}
+						}
+						
+					}
+					}
+				}
+				else{
+					$errmail="Invalid Details";
+				}				
+
+			}
+		}
+?>
 <!DOCTYPE html>
-<html lang="en" >
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
-  <link rel="stylesheet" href="./login_style.css">
-  <!-- <link rel="stylesheet" href="./assets/css/service.css"> -->
+    <!-- Basic Page Info -->
+    <meta charset="utf-8" />
+    <title>Restaurent Management System LOGIN PAGE</title>
 
-<!-- <link rel="stylesheet" href="login_style.css"> -->
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png" />
+    <!-- <link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="vendors/images/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="vendors/images/favicon-16x16.png"
+		/> -->
 
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="vendors/styles/core.css" />
+    <link rel="stylesheet" type="text/css" href="vendors/styles/icon-font.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendors/styles/style.css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-GBZ3SGGX85");
+    </script>
+    <!-- Google Tag Manager -->
+    <script>
+    (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js"
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-NXZMQSS");
+    </script>
+    <!-- End Google Tag Manager -->
 
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="icon" >
-
-	<button  onclick="window.location.href = 'index.php';"><a href="index.php"></a></button>
-
-</div>
-<!-- partial:index.partial.html -->
-<!-- signup form -->
-<div class="container" id="container">
-	<div class="form-container sign-up-container">
-		<form action="#" method="post">
-			<h1>Create Account</h1>
-			<div class="social-container">
-				<!-- <a href="#" class="social"><i class="fab fa-facebook-f"></i></a> -->
-				<a href="#" class="social"><i class="fab fa-google"></i></a>
-				<!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
-			</div>
-			<span>or use your email for registration</span>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button>Sign Up</button>
-		</form>
-	</div>
-	<div class="form-container sign-in-container">
-		<form action="#">
-			<h1>Sign in</h1>
-			<div class="social-container">
-				<!-- <a href="#" class="social"><i class="fab fa-facebook-f"></i></a> -->
-				<a href="#" class="social"><i class="fab fa-google"></i></a>
-				<!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
-			</div>
-			<span>or use your account</span>
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<a href="./sidebar/Admin Dashboard Panel/index.php">Forgot your password?</a>
-			<button>Sign In</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost" id="signIn">Sign In</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Enter your details and start journey with us</p>
-				<button class="ghost" id="signUp">Sign Up</button>
-			</div>
-		</div>
-	</div>
-</div>
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="brand-logo">
+            <a href="../index.php">
+                <img src="vendors/images/deskapp-logo.svg" alt="" />
+            </a>
+        </div>
+        <div class="login-menu">
+            <ul>
+                <li><a href="register.php">Register</a></li>
+            </ul>
+        </div>
+    </div>
 
 
-  <script  src="./login_script.js"></script>
+    <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 col-lg-7">
+                    <img src="vendors/images/login-page-img.png" alt="" />
+                </div>
+                <div class="col-md-6 col-lg-5">
+                    <div class="login-box bg-white box-shadow border-radius-10">
+                        <div class="login-title">
+                            <h2 class="text-center text-primary">Login To DeskApp</h2>
+                        </div>
+                        <form method="POST">
+                            <!-- <div class="select-role">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn active">
+											<input type="radio" name="options" id="admin" />
+											<div class="icon">
+												<img
+													src="vendors/images/briefcase.svg"
+													class="svg"
+													alt=""
+												/>
+											</div>
+											<span>I'm</span>
+											Customer
+										</label>
+										<label class="btn">
+											<input type="radio" name="options" id="user" />
+											<div class="icon">
+												<img
+													src="vendors/images/person.svg"
+													class="svg"
+													alt=""
+												/>
+											</div>
+											<span>I'm</span>
+											Employee
+										</label>
+									</div>
+								</div> -->
+                            <div class="input-group custom">
+                                <input type="text" class="form-control form-control-lg" required placeholder="Email" name="mail"
+                                    require pattern="\w,./_=?-]+" />
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+                                </div>
+                            </div>
+                            <div class="input-group custom">
+                                <input type="password" class="form-control form-control-lg" placeholder="Password"
+                                    name="pwd" required pattern="\w,./_=?-]+"/>
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="row pb-30">
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <!-- <input type="checkbox" class="custom-control-input" id="customCheck1" />
+                                        <label class="custom-control-label" for="customCheck1">Remember</label> -->
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="forgot-password">
+                                        <a href="forgot-password.php">Forgot Password</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group mb-0">
+                                        <!--                       SIGN IN BUTTON                       -->
+                                        <input class="btn btn-primary btn-lg btn-block"
+                                            class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In"
+                                            name="signin">
+                                    </div>
+                                    <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">
+                                        OR
+                                    </div>
+                                    <div class="input-group mb-0">
+                                        <a class="btn btn-outline-primary btn-lg btn-block" href="register.php">Register
+                                            To Create Account</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <?php
+							if(isset($errPwd))
+							{
+
+								echo '<div class="alert alert-primary" role="alert">';
+								// echo "$errPwd<br>";
+								if(isset($errmail) && $errmail!="")
+									echo $errmail."<br>";
+								else{
+									echo "$errPwd<br>"; 
+								}
+								echo '</div>';
+								
+							}
+							?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- js -->
+    <script src="vendors/scripts/core.js"></script>
+    <script src="vendors/scripts/script.min.js"></script>
+    <script src="vendors/scripts/process.js"></script>
+    <script src="vendors/scripts/layout-settings.js"></script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
 </body>
+
 </html>
